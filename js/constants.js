@@ -1,65 +1,81 @@
 export const GRID_COLS = 22;
-export const GRID_ROWS = 5;
+export const GRID_ROWS = 7;
 
-export const SCRAMBLE_DURATION = 800;
-export const FLIP_DURATION = 300;
+export const FLIP_DURATION = 100;
 export const STAGGER_DELAY = 25;
-export const TOTAL_TRANSITION = 3800;
-export const MESSAGE_INTERVAL = 4000;
+export const MESSAGE_INTERVAL = 2000;
 
-export const CHARSET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,-!?\'/: ';
-
-export const SCRAMBLE_COLORS = [
-  '#00AAFF', '#00FFCC', '#AA00FF',
-  '#FF2D00', '#FFCC00', '#FFFFFF'
-];
-
-export const ACCENT_COLORS = [
-  '#00FF7F', '#FF4D00', '#AA00FF',
-  '#00AAFF', '#00FFCC'
-];
+export const CHARSET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,-!?\' ';
 
 export const MESSAGES = [
   [
     '',
-    'GOD IS IN',
-    'THE DETAILS .',
-    '- LUDWIG MIES',
+    'THE TIME IS NOW',
+    '',
+    'MAKE IT COUNT',
     ''
   ],
   [
     '',
-    'STAY HUNGRY',
-    'STAY FOOLISH',
-    '- STEVE JOBS',
+    'WELCOME',
+    '',
+    'WE\'RE GLAD YOU\'RE HERE',
+    ''
+  ],
+  [
+    '',
+    'STAY CURIOUS',
+    'ASK QUESTIONS',
+    'BUILD THINGS',
     ''
   ],
   [
     '',
     'GOOD DESIGN IS',
-    'GOOD BUSINESS',
-    '- THOMAS WATSON',
+    'AS LITTLE DESIGN',
+    'AS POSSIBLE',
     ''
   ],
   [
     '',
-    'LESS IS MORE',
-    '',
-    '- MIES VAN DER ROHE',
+    'SIMPLICITY IS THE',
+    'ULTIMATE',
+    'SOPHISTICATION',
     ''
   ],
   [
     '',
-    'MAKE IT SIMPLE',
-    'BUT SIGNIFICANT',
-    '- DON DRAPER',
+    'THINK DIFFERENT',
+    '',
+    '',
     ''
   ],
   [
     '',
-    'HAVE NO FEAR OF',
-    'PERFECTION',
-    '- SALVADOR DALI',
+    'MOVE FAST',
+    'BREAK NOTHING',
+    '',
     ''
-  ]
+  ],
+  [
+    '',
+    'THE BEST WAY TO',
+    'PREDICT THE FUTURE',
+    'IS TO CREATE IT',
+    ''
+  ],
+  [
+    '',
+    'DONE IS BETTER',
+    'THAN PERFECT',
+    '',
+    ''
+  ],
+  [
+    'NOW SERVING',
+    '',
+    'GATE 42',
+    '',
+    'ON TIME'
+  ],
 ];

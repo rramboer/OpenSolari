@@ -1,14 +1,14 @@
-import { CHARSET, SCRAMBLE_COLORS, SCRAMBLE_DURATION, FLIP_DURATION } from './constants.js';
+import { CHARSET, FLIP_DURATION } from './constants.js';
 
 export class Tile {
-  constructor(row, col) {
-    this.row = row;
-    this.col = col;
+  constructor() {
     this.currentChar = ' ';
-    this.isAnimating = false;
-    this._scrambleTimer = null;
+    this._delayTimer = null;
+    this._animating = false;
+    this._flipped = false;
+    // Cumulative rotation so we always flip forward (like a real drum)
+    this._rotation = 0;
 
-    // Build DOM
     this.el = document.createElement('div');
     this.el.className = 'tile';
 
@@ -34,70 +34,72 @@ export class Tile {
     this.currentChar = char;
     this.frontSpan.textContent = char === ' ' ? '' : char;
     this.backSpan.textContent = '';
-    this.frontEl.style.backgroundColor = '';
   }
 
-  scrambleTo(targetChar, delay) {
-    if (targetChar === this.currentChar) return;
-
-    // Cancel any in-progress animation
-    if (this._scrambleTimer) {
-      clearInterval(this._scrambleTimer);
-      this._scrambleTimer = null;
+  // Build the sequence of characters the drum must flip through
+  // to get from current to target, then chain-flip through each one
+  flipTo(targetChar, delay, onComplete) {
+    if (targetChar === this.currentChar) {
+      if (onComplete) onComplete();
+      return;
     }
-    this.isAnimating = true;
 
-    setTimeout(() => {
+    if (this._delayTimer) {
+      clearTimeout(this._delayTimer);
+      this._delayTimer = null;
+    }
+
+    const sequence = this._buildSequence(targetChar);
+
+    this._delayTimer = setTimeout(() => {
       this.el.classList.add('scrambling');
-      let scrambleCount = 0;
-      const maxScrambles = 10 + Math.floor(Math.random() * 4);
-      const scrambleInterval = 70;
-
-      this._scrambleTimer = setInterval(() => {
-        // Random character
-        const randChar = CHARSET[Math.floor(Math.random() * CHARSET.length)];
-        this.frontSpan.textContent = randChar === ' ' ? '' : randChar;
-
-        // Cycle background color
-        const color = SCRAMBLE_COLORS[scrambleCount % SCRAMBLE_COLORS.length];
-        this.frontEl.style.backgroundColor = color;
-
-        // Briefly change text color for contrast on light backgrounds
-        if (color === '#FFFFFF' || color === '#FFCC00') {
-          this.frontSpan.style.color = '#111';
-        } else {
-          this.frontSpan.style.color = '';
-        }
-
-        scrambleCount++;
-
-        if (scrambleCount >= maxScrambles) {
-          clearInterval(this._scrambleTimer);
-          this._scrambleTimer = null;
-
-          // Reset colors
-          this.frontEl.style.backgroundColor = '';
-          this.frontSpan.style.color = '';
-
-          // Set the final character directly (skip 3D flip for reliability)
-          // Use a brief opacity flash to simulate the flip settle
-          this.frontSpan.textContent = targetChar === ' ' ? '' : targetChar;
-
-          // Quick flash effect: brief scale transform
-          this.innerEl.style.transition = `transform ${FLIP_DURATION}ms ease-in-out`;
-          this.innerEl.style.transform = 'perspective(400px) rotateX(-8deg)';
-
-          setTimeout(() => {
-            this.innerEl.style.transform = '';
-            setTimeout(() => {
-              this.innerEl.style.transition = '';
-              this.el.classList.remove('scrambling');
-              this.currentChar = targetChar;
-              this.isAnimating = false;
-            }, FLIP_DURATION);
-          }, FLIP_DURATION / 2);
-        }
-      }, scrambleInterval);
+      this._chainFlip(sequence, 0, onComplete);
     }, delay);
+  }
+
+  // Get ordered characters from current to target going forward through the drum
+  _buildSequence(targetChar) {
+    const from = CHARSET.indexOf(this.currentChar.toUpperCase());
+    const to = CHARSET.indexOf(targetChar.toUpperCase());
+
+    // If character not in charset, just flip directly
+    if (from === -1 || to === -1) return [targetChar];
+
+    const sequence = [];
+    let i = (from + 1) % CHARSET.length;
+    while (i !== to) {
+      sequence.push(CHARSET[i]);
+      i = (i + 1) % CHARSET.length;
+    }
+    sequence.push(targetChar);
+    return sequence;
+  }
+
+  _chainFlip(sequence, index, onComplete) {
+    if (index >= sequence.length) {
+      this.el.classList.remove('scrambling');
+      if (onComplete) onComplete();
+      return;
+    }
+
+    const char = sequence[index];
+
+    this._hiddenSpan().textContent = char === ' ' ? '' : char;
+
+    this._rotation -= 180;
+    this.innerEl.style.transition = `transform ${FLIP_DURATION}ms ease-in`;
+    this.innerEl.style.transform = `rotateX(${this._rotation}deg)`;
+
+    const onDone = () => {
+      this.innerEl.removeEventListener('transitionend', onDone);
+      this._flipped = !this._flipped;
+      this.currentChar = char;
+      this._chainFlip(sequence, index + 1, onComplete);
+    };
+    this.innerEl.addEventListener('transitionend', onDone);
+  }
+
+  _hiddenSpan() {
+    return this._flipped ? this.frontSpan : this.backSpan;
   }
 }

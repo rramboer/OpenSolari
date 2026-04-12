@@ -23,13 +23,14 @@ export class SoundEngine {
       }
       this._audioBuffer = await this.ctx.decodeAudioData(bytes.buffer);
     } catch (e) {
-      console.warn('Failed to decode flap audio:', e);
+      console.error('Audio decode failed, sound disabled:', e);
+      this._audioError = true;
     }
   }
 
   resume() {
     if (this.ctx && this.ctx.state === 'suspended') {
-      this.ctx.resume();
+      this.ctx.resume().catch(() => {});
     }
   }
 
@@ -52,7 +53,7 @@ export class SoundEngine {
       try {
         this._currentSource.stop();
       } catch (e) {
-        // ignore if already stopped
+        if (e.name !== 'InvalidStateError') throw e;
       }
     }
 
@@ -73,18 +74,5 @@ export class SoundEngine {
         this._currentSource = null;
       }
     };
-  }
-
-  /** Get the duration of the transition audio clip in ms */
-  getTransitionDuration() {
-    if (this._audioBuffer) {
-      return this._audioBuffer.duration * 1000;
-    }
-    return 3800; // fallback
-  }
-
-  // Keep this for API compatibility but it now plays the full transition
-  scheduleFlaps() {
-    this.playTransition();
   }
 }

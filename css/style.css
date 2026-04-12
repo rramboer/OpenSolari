@@ -1,4 +1,49 @@
-/* Tile Wrapper */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background: #1A1A1A;
+  color: #fff;
+  overflow: hidden;
+  cursor: none;
+}
+
+.board-section {
+  width: 100vw;
+  height: 100vh;
+}
+
+.board {
+  --tile-size: 76px;
+  --tile-gap: 6px;
+
+  background: #1A1A1A;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.tile-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols, 22), var(--tile-size));
+  grid-template-rows: repeat(var(--grid-rows, 5), var(--tile-size));
+  gap: var(--tile-gap);
+  justify-content: center;
+}
+
 .tile {
   width: var(--tile-size);
   height: var(--tile-size);
@@ -7,7 +52,6 @@
   border-radius: 3px;
 }
 
-/* Inner Container (transform target) */
 .tile-inner {
   width: 100%;
   height: 100%;
@@ -15,7 +59,6 @@
   transform-style: preserve-3d;
 }
 
-/* Tile Faces */
 .tile-front,
 .tile-back {
   position: absolute;
@@ -47,7 +90,6 @@
   transform: rotateX(180deg);
 }
 
-/* Horizontal Split Line — subtle mechanical seam */
 .tile-front::after,
 .tile-back::after {
   content: '';
@@ -60,49 +102,6 @@
   pointer-events: none;
 }
 
-/* Highlight Sweep (metallic reflection during flip) */
-.tile-front::before,
-.tile-back::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.08) 45%,
-    rgba(255, 255, 255, 0.15) 50%,
-    rgba(255, 255, 255, 0.08) 55%,
-    transparent 100%
-  );
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.15s;
-}
-
-/* 3D Flip Animation */
-.tile-inner.flipping {
-  animation: tileFlip var(--flip-duration, 300ms) ease-in-out forwards;
-}
-
-.tile-inner.flipping .tile-front::before,
-.tile-inner.flipping .tile-back::before {
-  opacity: 1;
-}
-
-@keyframes tileFlip {
-  0% {
-    transform: rotateX(0deg);
-  }
-  50% {
-    transform: rotateX(-90deg);
-  }
-  100% {
-    transform: rotateX(-180deg);
-  }
-}
-
-/* GPU compositing hint during animation only */
-.tile-inner.flipping,
 .tile.scrambling .tile-inner {
   will-change: transform;
 }

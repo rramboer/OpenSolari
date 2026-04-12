@@ -1,10 +1,10 @@
-# FlipOff.
+# OpenSolari
 
-**Turn any TV into a retro split-flap display.** Free and open-source.
+**Turn any TV into a split-flap display.** Free and open-source.
 
 ## What is this?
 
-FlipOff is a web app that emulates a classic mechanical split-flap display — the kind you'd see at train stations and airports. Designed to run fullscreen on a TV via a Raspberry Pi or any browser.
+OpenSolari is a web app that emulates a classic Solari split-flap display — the kind you'd see at train stations and airports. Each tile flips through characters one by one, just like the real mechanical boards. Designed to run fullscreen on a TV via a Raspberry Pi or any browser.
 
 No accounts. No subscriptions. Just open `index.html` and go.
 
@@ -26,27 +26,27 @@ python3 -m http.server 8080
 ## File Structure
 
 ```
-flipoff/
+OpenSolari/
   index.html          — Single-page app
   css/
     style.css         — All styles
   js/
     main.js           — Entry point
     Board.js          — Grid manager and transition orchestration
-    Tile.js           — Individual tile animation logic
+    Tile.js           — Individual tile flip animation
     SoundEngine.js    — Audio playback with Web Audio API
     flapAudio.js      — Embedded audio data (base64)
-    MessageRotator.js — Quote rotation timer
+    MessageRotator.js — Message rotation timer
     KeyboardController.js — Keyboard shortcut handling
-    constants.js      — Configuration (grid size, colors, quotes)
+    constants.js      — Configuration (grid size, timing, messages)
 ```
 
 ## Customization
 
 Edit `js/constants.js` to change:
-- **Messages**: Add your own quotes or text (5 rows, max 22 chars per row)
+- **Messages**: Add your own text (max `GRID_ROWS` rows, max `GRID_COLS` chars per row)
 - **Grid size**: Adjust `GRID_COLS` and `GRID_ROWS`
-- **Timing**: Tweak `FLIP_DURATION`, `STAGGER_DELAY`, etc.
+- **Timing**: Tweak `FLIP_DURATION`, `STAGGER_DELAY`, `MESSAGE_INTERVAL`
 
 ## License
 

@@ -17,6 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
     rotator.start();
   } catch (e) {
     document.body.style.cssText = 'display:flex;align-items:center;justify-content:center;';
-    document.body.textContent = 'FlipOff failed to start: ' + e.message;
+    document.body.textContent = 'OpenSolari failed to start:' + e.message;
   }
 });

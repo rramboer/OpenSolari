@@ -7,7 +7,6 @@
 html, body {
   height: 100%;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
@@ -47,36 +46,17 @@ body {
 .tile {
   width: var(--tile-size);
   height: var(--tile-size);
-  perspective: 400px;
-  background: #111;
-  border-radius: 3px;
-}
-
-.tile-inner {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  transform-style: preserve-3d;
-}
-
-.tile-front,
-.tile-back {
-  position: absolute;
-  inset: 1px;
-  backface-visibility: hidden;
   background: #222;
-  border-radius: 2px;
+  border-radius: 3px;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow:
     inset 0 1px 3px rgba(0, 0, 0, 0.5),
     inset 0 -1px 1px rgba(255, 255, 255, 0.02);
-  overflow: hidden;
 }
 
-.tile-front span,
-.tile-back span {
+.tile span {
   font-size: calc(var(--tile-size) * 0.52);
   font-weight: 700;
   color: #FFFFFF;
@@ -86,12 +66,7 @@ body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-.tile-back {
-  transform: rotateX(180deg);
-}
-
-.tile-front::after,
-.tile-back::after {
+.tile::after {
   content: '';
   position: absolute;
   left: 0;
@@ -100,8 +75,4 @@ body {
   height: 1px;
   background: rgba(0, 0, 0, 0.3);
   pointer-events: none;
-}
-
-.tile.scrambling .tile-inner {
-  will-change: transform;
 }

@@ -21,7 +21,6 @@ python3 -m http.server 8080
 |-----|--------|
 | `Enter` / `Space` / `Arrow Right` | Next message |
 | `Arrow Left` | Previous message |
-| `M` | Toggle mute |
 
 ## File Structure
 
@@ -34,8 +33,6 @@ OpenSolari/
     main.js           — Entry point
     Board.js          — Grid manager and transition orchestration
     Tile.js           — Individual tile flip animation
-    SoundEngine.js    — Audio playback with Web Audio API
-    flapAudio.js      — Embedded audio data (base64)
     MessageRotator.js — Message rotation timer
     KeyboardController.js — Keyboard shortcut handling
     constants.js      — Configuration (grid size, timing, messages)

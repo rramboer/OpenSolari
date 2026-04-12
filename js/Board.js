@@ -2,10 +2,9 @@ import { Tile } from './Tile.js';
 import { GRID_COLS, GRID_ROWS, STAGGER_DELAY } from './constants.js';
 
 export class Board {
-  constructor(containerEl, soundEngine) {
+  constructor(containerEl) {
     this.cols = GRID_COLS;
     this.rows = GRID_ROWS;
-    this.soundEngine = soundEngine;
     this.isTransitioning = false;
     this.tiles = [];
     this.currentGrid = [];
@@ -63,10 +62,6 @@ export class Board {
           });
         }
       }
-    }
-
-    if (pending > 0 && this.soundEngine) {
-      this.soundEngine.playTransition();
     }
 
     if (pending === 0) done();

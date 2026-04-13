@@ -91,8 +91,8 @@
 <body>
   <section class="board-section" id="board-container"></section>
   <script>
-    const GRID_COLS = 21;
-    const GRID_ROWS = 5;
+    const GRID_COLS = 22;
+    const GRID_ROWS = 8;
     const FLIP_DURATION = 100;
     const STAGGER_DELAY = 10;
     const MESSAGE_INTERVAL = 2000;
@@ -101,7 +101,9 @@
     const MESSAGES = [
       [],
       ['', 'GOOD MORNING'],
-      ['', 'GOOD MORNING', '', 'A HOTEL IS INVOLVED'],
+      ['', 'A HOTEL IS INVOLVED'],
+      ['', 'A HOTEL IS INVOLVED', '', 'TEMP 30-90 F'],
+      ['', 'A HOTEL IS INVOLVED', '', 'TEMP 30-90 F', '', 'WE HAVE A RENTAL CAR'],
     ];
 
     class Tile {

@@ -92,18 +92,14 @@
   <section class="board-section" id="board-container"></section>
   <script>
     const GRID_COLS = 22;
-    const GRID_ROWS = 8;
+    const GRID_ROWS = 9;
     const FLIP_DURATION = 100;
     const STAGGER_DELAY = 10;
     const MESSAGE_INTERVAL = 2000;
-    const CHARSET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,-!?\' ';
+    const CHARSET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,+-!?\' ';
 
     const MESSAGES = [
       [],
-      ['', 'GOOD MORNING'],
-      ['', 'A HOTEL IS INVOLVED'],
-      ['', 'A HOTEL IS INVOLVED', '', 'TEMP 30-90 F'],
-      ['', 'A HOTEL IS INVOLVED', '', 'TEMP 30-90 F', '', 'WE HAVE A RENTAL CAR'],
     ];
 
     class Tile {
